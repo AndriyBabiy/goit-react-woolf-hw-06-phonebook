@@ -50,7 +50,10 @@ const App = () => {
   };
 
   const handleFilter = () => {
-    dispatch(filterContacts(filter));
+    const contact_list = [...contacts];
+    return contact_list.filter(({ name }) =>
+      name.toLowerCase().includes(filter.toLowerCase())
+    );
   };
 
   return (

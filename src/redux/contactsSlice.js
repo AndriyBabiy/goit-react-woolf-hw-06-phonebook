@@ -28,21 +28,12 @@ const contactsSlice = createSlice({
     },
     deleteContact: {
       reducer(state, action) {
-        console.log('action.payload => ', action.payload);
-        console.log('state => ', state);
-        const index = state.findIndex(elem => (elem.id = action.payload));
+        const index = state.findIndex(elem => elem.id === action.payload);
         state.splice(index, 1);
       },
-    },
-    filterContacts(state, action) {
-      const contact_list = [...state];
-      return contact_list.filter(({ name }) =>
-        name.toLowerCase().includes(action.payload.filter.toLowerCase())
-      );
     },
   },
 });
 
-export const { addContact, deleteContact, filterContacts } =
-  contactsSlice.actions;
+export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
