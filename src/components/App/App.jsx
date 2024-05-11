@@ -10,11 +10,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts, selectFilter } from '../../redux/selectors';
 import { setFilterValue } from '../../redux/filtersSlice';
-import {
-  addContact,
-  deleteContact,
-  filterContacts,
-} from '../../redux/contactsSlice';
+import { addContact, deleteContact } from '../../redux/contactsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
