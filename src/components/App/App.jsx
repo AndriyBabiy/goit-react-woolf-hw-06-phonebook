@@ -4,13 +4,12 @@ import { useEffect } from 'react';
 import { ComponentHeading } from 'components/ComponentHeading/ComponentHeading';
 import { Contacts } from 'components/Contacts/Contacts';
 import { ContactsSearch } from 'components/Contacts/Contacts.styled';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FilterInput } from 'components/FilterInput/FilterInput';
 import { getContacts } from '../../redux/selectors';
 
 const App = () => {
   const contacts = useSelector(getContacts);
-  console.log(contacts);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));

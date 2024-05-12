@@ -3,15 +3,18 @@ import { ContactsContainer } from './Contacts.styled';
 import { useSelector } from 'react-redux';
 import { getContacts, selectFilter } from '../../redux/selectors';
 
-export const Contacts = ({ filterContacts, deleteContact }) => {
+export const Contacts = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(selectFilter);
 
   const handleFilter = () => {
     const contact_list = [...contacts];
-    return contact_list.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
+    if (filter) {
+      return contact_list.filter(({ name }) =>
+        name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+    return contact_list;
   };
 
   return (
