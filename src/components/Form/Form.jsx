@@ -1,26 +1,46 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from '../../redux/selectors';
+import { addContact } from '../../redux/contactsSlice';
 import {
   FormContainer,
   FormElement,
   FormLabel,
   FormSubmitButton,
 } from './Form.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { getContact } from '../../redux/selectors';
-import { setName, setNumber } from '../../redux/contactSlice';
 
-const Form = ({ submit }) => {
+const INITIAL_STATE = {
+  name: '',
+  number: '',
+};
+
+const Form = () => {
   const dispatch = useDispatch();
-  const { name, number } = useSelector(getContact);
+  const contacts = useSelector(getContacts);
+  const [contact, setContact] = useState(INITIAL_STATE);
 
   const handleChange = ({ target: { name, value } }) => {
-    name === 'name' ? dispatch(setName(value)) : dispatch(setNumber(value));
+    setContact(prev => {
+      return { ...prev, [name]: value };
+    });
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    submit({ name: name, number: number });
-    dispatch(setName(''));
-    dispatch(setNumber(''));
+    createNewContact({ name: contact.name, number: contact.number });
+    setContact(INITIAL_STATE);
+  };
+
+  const createNewContact = newContact => {
+    if (
+      contacts.find(
+        ({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
+      )
+    ) {
+      alert(`${newContact.name} is already in contacts`);
+    } else {
+      dispatch(addContact(newContact));
+    }
   };
 
   return (
@@ -28,7 +48,7 @@ const Form = ({ submit }) => {
       <FormElement>
         <FormLabel htmlFor="name">Name:</FormLabel>
         <input
-          value={name}
+          value={contact.name}
           onChange={handleChange}
           id="name"
           type="text"
@@ -41,7 +61,7 @@ const Form = ({ submit }) => {
       <FormElement>
         <FormLabel htmlFor="number">Number:</FormLabel>
         <input
-          value={number}
+          value={contact.number}
           onChange={handleChange}
           id="number"
           type="tel"
